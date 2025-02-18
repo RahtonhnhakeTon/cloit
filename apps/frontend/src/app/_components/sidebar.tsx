@@ -83,16 +83,18 @@ const Item = (props: any) => {
         (si: any) => props.pathname === si.link
     );
 
+    const isActive = hasActiveChild || props.isOpen;
+
     return (
-        <li className={'mt-3 mx-3 flex flex-col rounded-3xl ' + (props.isOpen? 'bg-[#1b2237]': 'hover:bg-[#1b2237')}>
-            <button className={'flex p-4 ' + ((hasActiveChild || props.isOpen)? 'text-white' : '')}
+        <li className={'mt-3 mx-3 flex flex-col rounded-3xl ' + (isActive? 'bg-[#1b2237]': 'hover:bg-[#1b2237')}>
+            <button className={'flex p-4 ' + (isActive? 'text-white' : '')}
                     onClick={() => props.toggler(props.item.id)}>
                 <span className={"material-symbols-rounded w-2/12 mr-2 " + ((hasActiveChild || props.isOpen)? '' : 'material-filled')}>
                     {'folder' + (props.isOpen? '_open' : '') }
                 </span>
                 <span className='w-10/12 text-left'>{props.item.name}</span>
             </button>
-            { (hasActiveChild || props.isOpen) && hasSubItems && (
+            { isActive && hasSubItems && (
                 <ul>
                     {props.item.subitems.map(
                         (item:any) => <Subitem key={item.id} item={item} pathname={props.pathname} />
