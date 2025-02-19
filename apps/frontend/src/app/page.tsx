@@ -1,4 +1,4 @@
-import Title from "@/app/_components/title";
+import Title from "@/app/_components/Title";
 
 export default function Home() {
   return (

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Sidebar from "@/app/_components/sidebar";
+import Sidebar from "@/app/_components/Sidebar";
 import "./globals.css";
 import "material-symbols";
 
@@ -20,7 +20,7 @@ export default function RootLayout({
       >
         <div className="flex">
             <Sidebar />
-            <div className="h-screen p-5">
+            <div className="w-10/12 h-screen p-5">
                 {children}
             </div>
         </div>
