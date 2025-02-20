@@ -44,12 +44,13 @@ const menuItems = [
 const Sidebar = ()=> {
     const [openIndex, setOpenIndex] = useState<number | null>(null);
     const isOpen = useAppSelector((state) => state.sidebar.isOpen);
+    const [windowWidth, setWindowWidth] = useState<number | null>(null);
+
     const dispatch = useAppDispatch();
 
     if (typeof window !== "undefined") {
-        const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
         useEffect(() => {
-            if(windowWidth < 640){
+            if(windowWidth && windowWidth < 640){
                 dispatch(close())
             }
             function handleResize() {
