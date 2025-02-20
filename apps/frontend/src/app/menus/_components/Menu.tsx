@@ -7,7 +7,7 @@ import MenuForm from "@/app/menus/_components/Form";
 import {useState} from "react";
 
 export default function Menu(props: any) {
-    const {data, error, isLoading} = useSWR("http://localhost:3001/menus/tree/" + props.selected,
+    const {data, error, isLoading} = useSWR(process.env.API_URL  + "menus/tree/" + props.selected,
         SWRfetcher);
 
     const [selectedMenu, setSelectedMenu] = useState<any>(null);

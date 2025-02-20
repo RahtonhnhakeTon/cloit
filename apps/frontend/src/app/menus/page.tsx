@@ -7,7 +7,7 @@ import {useState} from "react";
 import Loading from "@/app/menus/loading";
 
 const MenuPage = (props: any) => {
-    const {data, error, isLoading} = useSWR("http://localhost:3001/menus/roots",
+    const {data, error, isLoading} = useSWR(process.env.API_URL  + "menus/roots",
         SWRfetcher);
 
     const [selected, setSelected] = useState<string | null>(null);

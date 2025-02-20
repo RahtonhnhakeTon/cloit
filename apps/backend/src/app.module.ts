@@ -9,7 +9,7 @@ import { ConfigModule } from "@nestjs/config";
   imports: [MenusModule,
     ConfigModule.forRoot({
     isGlobal: true,
-    envFilePath: ['../../.env', '../../.development.env'],
+    envFilePath: ['.env', '.development.env'],
     load: [
       DatabaseConfiguration,
     ]

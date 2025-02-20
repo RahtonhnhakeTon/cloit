@@ -8,6 +8,7 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"libs/**/*.ts\"",
+    "postinstall": "prisma generate",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
@@ -80,5 +81,8 @@
     "moduleNameMapper": {
       "^@app/database(|/.*)$": "<rootDir>/libs/database/src/$1"
     }
+  },
+  "pnpm": {
+      "onlyBuiltDependencies": ["@prisma/client"]
   }
 }
