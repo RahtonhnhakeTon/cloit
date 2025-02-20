@@ -27,17 +27,19 @@ export default function MenuForm(props: any) {
     }
 
     const handleSubmit = () => {
+        setTouched(false);
         updateMenuNode(formData);
+        props.closeForm();
     }
 
     return (
         <Form action={handleSubmit}>
             <div className="mb-4">
-                <label htmlFor="menu-id" className="block text-sm font-medium text-gray-600">
+                <label htmlFor="menu-id" className={"block text-sm font-medium " + (!!initialFormData.id ? 'text-gray-600 ':'')}>
                     MenuID
                 </label>
                 <input id="menu-id" name="id" type="text" disabled={!!initialFormData.id} value={formData.id}
-                       placeholder="Leave blank to autogenerate ID"
+                       placeholder="Leave blank to autogenerate ID" onInput={handleInput}
                        className={"mt-1 w-9/12 p-2 rounded-xl bg-gray-100 " +
                            "disabled:text-gray-500 disabled:bg-gray-200 focus:outline-none border-l-8 " +
                            "focus:ring-2 focus:ring-blue-400 "}/>
@@ -62,7 +64,7 @@ export default function MenuForm(props: any) {
             </div>
 
             <div className="mb-4">
-                <label htmlFor="menu-name" className="block text-sm font-medium text-gray-600">
+                <label htmlFor="menu-name" className={"block text-sm font-medium"}>
                     Name
                 </label>
                 <input id="menu-name" name="name" type="text" value={formData.name}

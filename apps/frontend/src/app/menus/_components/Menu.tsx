@@ -7,21 +7,27 @@ import MenuForm from "@/app/menus/_components/Form";
 import {useState} from "react";
 
 export default function Menu(props: any) {
-    const {data, error, isLoading} = useSWR(process.env.NEXT_PUBLIC_API_URL + "menus/tree/" + props.selected,
+    const [selectedMenu, setSelectedMenu] = useState<any>(null);
+
+    const {data, mutate} = useSWR(process.env.NEXT_PUBLIC_API_URL + "menus/tree/" + props.selected,
         SWRfetcher);
 
-    const [selectedMenu, setSelectedMenu] = useState<any>(null);
+    const closeForm = () => {
+        mutate();
+        setSelectedMenu(null);
+    }
 
     return (data &&
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
                 <ul className="list-none">
                     <TreeNode key={data.id} node={data} selected={selectedMenu}
-                              clickAction={(node) => {setSelectedMenu(node)}} />
+                              clickAction={(node: any) => {setSelectedMenu(node)}}
+                              expandAll={props.expandAll}/>
                 </ul>
             </div>
 
-            {selectedMenu && <MenuForm data={selectedMenu} />}
+            {selectedMenu && <MenuForm data={selectedMenu} closeForm={closeForm} />}
         </div>
     );
 }

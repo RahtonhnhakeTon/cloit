@@ -1,7 +1,7 @@
 // app/components/TreeNode.tsx
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from 'react';
 
 interface NodeType {
     id: string;
@@ -9,14 +9,18 @@ interface NodeType {
     children?: NodeType[];
 }
 
-export default function TreeNode({ node, clickAction, selected } : { node: NodeType, selected: NodeType | null, clickAction: (node: NodeType) => void }) {
-    const hasChildren = node.children && node.children.length > 0;
-    const isSelected = selected?.id === node.id;
+export default function TreeNode(props: any) {
+    const hasChildren = props.node.children && props.node.children.length > 0;
+    const isSelected = props.selected?.id === props.node.id;
     const [isOpen, setIsOpen] = useState(false);
+
+    useEffect(() => {
+        setIsOpen(props.expandAll);
+      }, [props.expandAll])
 
     const toggle = () => setIsOpen(!isOpen);
     const openCreateNodeForm = (node: any) => {
-        clickAction({
+        props.clickAction({
             ...node,
             depth: node.depth + 1,
             parentId: node.id,
@@ -28,25 +32,26 @@ export default function TreeNode({ node, clickAction, selected } : { node: NodeT
 
     return (
         <li className="mb-1">
-            <div className="flex space-between">
+            <div className="flex space-between items-center h-10">
                 {hasChildren && (
                     <button
                         onClick={toggle}
                         className="bg-background text-gray-600 hover:text-black w-5"
                     >
-                        <span className={"material-symbols-outlined"}>
+                        <span className={"material-symbols-outlined align-middle"}>
                             {"keyboard_arrow_" + (isOpen ? "down" : "right")}
                         </span>
                     </button>
                 )}
 
-                <button onClick={() => clickAction(node)}>
-                    <span className={"ml-3 " + (isSelected ? 'text-black ': 'text-gray-600 ') +
-                        (!hasChildren? 'pl-5 ' : ' ')}>{node.name}</span>
+                <button onClick={() => props.clickAction(props.node)}>
+                    <span className={"ml-3 " + (isSelected ? 'text-black ': 'text-gray-600 hover:text-cyan-400 ') +
+                        (!hasChildren? 'pl-5 ' : ' ')}>{props.node.name}</span>
                 </button>
                 {isSelected &&
-                    <button onClick={() => openCreateNodeForm(node)}
-                        className={"ml-3 mt-0.5 p-2 rounded-full w-6 h-6 bg-blue-600 text-white flex items-center justify-center"}>
+                    <button onClick={() => openCreateNodeForm(props.node)}
+                        className={"ml-4 p-2 rounded-full w-6 h-6 bg-blue-600 text-white " +
+                          "flex items-center align-middle justify-center"}>
                         <span className="material-symbols-outlined" style={
                             {fontSize: "16px"}
                         }>add</span>
@@ -57,8 +62,8 @@ export default function TreeNode({ node, clickAction, selected } : { node: NodeT
             {/* Recursively render children if open */}
             {hasChildren && isOpen && (
                 <ul className="ml-3 border-l border-gray-300 pl-4">
-                    {node.children!.map((child) => (
-                        <TreeNode key={child.id} node={child} clickAction={clickAction} selected={selected} />
+                    {props.node.children!.map((child: any) => (
+                        <TreeNode key={child.id} node={child} clickAction={props.clickAction} selected={props.selected} expandAll={props.expandAll} />
                     ))}
                 </ul>
             )}
