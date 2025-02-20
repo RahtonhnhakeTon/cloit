@@ -1,6 +1,14 @@
+'use client'
+
+
 import Link from "next/link";
+import { useAppDispatch, useAppSelector } from '@/app/_utils/hooks';
+import { toggle } from '@/app/_slices/sidebar.slice';
 
 const Title = (props: any) => {
+    const isSidebarOpen = useAppSelector((state) => state.sidebar.isOpen);
+    const dispatch = useAppDispatch();
+
     const renderBreadcrumb = (items: any[]) => {
         const divider = <span className={"mx-2"}>/</span>;
         let link = '';
@@ -25,6 +33,12 @@ const Title = (props: any) => {
     return (
         <div className="mb-5 flex flex-col">
             <div className="flex mb-5 text-gray-500">
+                { !isSidebarOpen &&
+                    <button className={"w-10 h-10 ring-1 ring-gray-600 mr-4 rounded-lg"}
+                            onClick={() => {dispatch(toggle())} }>
+                        <span className={"material-symbols-outlined"}>menu_open</span>
+                    </button>
+                }
                 <Link href="/">
                     <span className={"material-symbols-rounded material-filled text-gray-400"}>folder</span>
                 </Link>

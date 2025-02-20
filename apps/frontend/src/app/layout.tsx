@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Sidebar from "@/app/_components/Sidebar";
 import "./globals.css";
 import "material-symbols";
+import StoreProvider from '@/app/StoreProvicer';
 
 export const metadata: Metadata = {
   title: "Cloit Assignment",
@@ -18,12 +19,14 @@ export default function RootLayout({
       <body
         className={`antialiased`}
       >
-        <div className="flex">
-            <Sidebar />
-            <div className="w-10/12 h-screen p-5">
-                {children}
-            </div>
-        </div>
+        <StoreProvider>
+          <div className="flex">
+              <Sidebar />
+              <div className="md:w-10/12 min-w-80 h-screen p-5">
+                  {children}
+              </div>
+          </div>
+        </StoreProvider>
       </body>
     </html>
   );

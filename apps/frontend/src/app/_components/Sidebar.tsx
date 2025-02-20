@@ -1,9 +1,11 @@
 "use client"
 
 import Image from "next/image";
-import {useState} from "react";
+import { useEffect, useState } from 'react';
 import Link from "next/link";
 import {usePathname} from "next/navigation";
+import { toggle, close } from '@/app/_slices/sidebar.slice';
+import { useAppDispatch, useAppSelector } from '@/app/_utils/hooks';
 
 const menuItems = [
     {
@@ -39,16 +41,29 @@ const menuItems = [
     }
 ]
 
-
 const Sidebar = ()=> {
     const [openIndex, setOpenIndex] = useState<number | null>(null);
-    const [isOpen, setOpen] = useState<boolean>(true);
+    const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
+    const isOpen = useAppSelector((state) => state.sidebar.isOpen);
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        if(windowWidth < 640){
+            dispatch(close())
+        }
+        function handleResize() {
+            setWindowWidth(window.innerWidth);
+        }
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
 
     const handleItemToggle = (index: number) => {
         setOpenIndex(openIndex === index ? -1 : index);
     };
     const handleToggle = () => {
-        setOpen(!isOpen);
+        dispatch(toggle());
     }
     const pathname = usePathname();
 
@@ -59,8 +74,8 @@ const Sidebar = ()=> {
     }
 
     return (
-        <aside className="xl:w-2/12 lg:w-4/12 w-8/12 m-4 bg-[#0e1528] text-white
-            flex-col rounded-3xl sticky lg:z-0 z-40 hidden md:flex">
+        <aside className="xl:w-2/12 lg:w-4/12 min-w-72 m-4 bg-[#0e1528] text-white
+            flex-col rounded-3xl sticky lg:z-0 z-40">
             <div className="p-5 flex">
                 <div className="w-11/12">
                     <Image src="/cloit-logo.svg" alt="logo" width="77" height="20" />
