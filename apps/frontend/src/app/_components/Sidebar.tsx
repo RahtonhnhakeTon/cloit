@@ -43,20 +43,22 @@ const menuItems = [
 
 const Sidebar = ()=> {
     const [openIndex, setOpenIndex] = useState<number | null>(null);
-    const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
     const isOpen = useAppSelector((state) => state.sidebar.isOpen);
     const dispatch = useAppDispatch();
 
-    useEffect(() => {
-        if(windowWidth < 640){
-            dispatch(close())
-        }
-        function handleResize() {
-            setWindowWidth(window.innerWidth);
-        }
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
+    if (typeof window !== "undefined") {
+        const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
+        useEffect(() => {
+            if(windowWidth < 640){
+                dispatch(close())
+            }
+            function handleResize() {
+                setWindowWidth(window.innerWidth);
+            }
+            window.addEventListener('resize', handleResize);
+            return () => window.removeEventListener("resize", handleResize);
+        }, []);
+    }
 
 
     const handleItemToggle = (index: number) => {
