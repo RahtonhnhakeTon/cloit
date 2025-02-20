@@ -48,18 +48,20 @@ const Sidebar = ()=> {
 
     const dispatch = useAppDispatch();
 
-    if (typeof window !== "undefined") {
-        useEffect(() => {
+    useEffect(() => {
             if(windowWidth && windowWidth < 640){
                 dispatch(close())
             }
-            function handleResize() {
-                setWindowWidth(window.innerWidth);
+            if (typeof window !== "undefined") {
+                function handleResize() {
+                    setWindowWidth(window.innerWidth);
+                }
+
+                window.addEventListener('resize', handleResize);
+                return () => window.removeEventListener('resize', handleResize);
             }
-            window.addEventListener('resize', handleResize);
-            return () => window.removeEventListener("resize", handleResize);
         }, []);
-    }
+
 
 
     const handleItemToggle = (index: number) => {
