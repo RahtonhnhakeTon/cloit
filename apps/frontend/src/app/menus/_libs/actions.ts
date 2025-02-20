@@ -1,7 +1,7 @@
 "use server";
 
 export const updateMenuNode = async (formData: any) => {
-    await fetch(process.env.API_URL  + "menus/menu/" + formData.id, {
+    await fetch(process.env.NEXT_PUBLIC_API_URL + "menus/menu/" + formData.id, {
         method: "PUT",
         body: JSON.stringify(formData),
         headers: [
@@ -11,7 +11,7 @@ export const updateMenuNode = async (formData: any) => {
 };
 
 export const createMenuNode = async (formData: any) => {
-    await fetch(process.env.API_URL  + "menus/menu/", {
+    await fetch(process.env.NEXT_PUBLIC_API_URL + "menus/menu/", {
         method: "POST",
         body: JSON.stringify(formData),
         headers: [
